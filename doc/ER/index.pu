@@ -5,27 +5,75 @@
 skinparam linetype ortho
 
 entity "ユーザー" as e01 {
-  *e1_id : number <<generated>>
+  *主キー（外部アプリのIDを想定）
   --
-  *name : text
-  description : text
+  認証情報
+  アプリ上のニックネーム
 }
 
-entity "Entity02" as e02 {
-  *e2_id : number <<generated>>
+entity "ロール" as e02 {
+  *主キー
   --
-  *e1_id : number <<FK>>
-  other_details : text
+  コレクション
 }
 
-entity "Entity03" as e03 {
-  *e3_id : number <<generated>>
+entity "パーミッション" as e03 {
+  *主キー
+  --
+  表示用の文字列
+  権限の文字列
+  ex)(リソース)-(メソッド)-all
+}
+
+entity "大カテゴリ" as e04 {
+  *主キー
+  --
+  コレクション
+}
+
+entity "中カテゴリ" as e05 {
+  *主キー
+  --
+  コレクション
+}
+
+entity "趣味" as e06 {
+  *主キー
   --
   e1_id : number <<FK>>
   other_details : text
 }
 
-e01 ||..o{ e02
-e01 |o..o{ e03
+entity "アンケート" as e07 {
+  *主キー
+  --
+  配信対象
+  配信期間
+}
+
+entity "アンケート内容" as e08 {
+  *主キー
+  --
+  配信対象
+  配信期間
+}
+
+entity "アンケート配信状況" as e09 {
+  *主キー
+  --
+  e1_id : number <<FK>>
+  other_details : text
+}
+
+e01 }o..o{ e02
+e02 }o..o{ e03
+e04 ||..o{ e05
+e05 ||..o{ e06
+e07 ||..|{ e08
+e08 ||..o{ e04
+e08 ||..o{ e05
+e08 ||..o{ e06
+e01 ||..|{ e09
+e07 |o..|{ e09
 
 @enduml
